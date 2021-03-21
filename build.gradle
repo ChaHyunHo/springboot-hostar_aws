@@ -1,0 +1,38 @@
+buildscript {
+    ext { /* ext라는 키워드는 build.gradle에서 사용하는 전역번수를 설정하겠다. */
+        springBootVersion = '2.1.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.hostar.education'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+
+test {
+    useJUnitPlatform()
+}
