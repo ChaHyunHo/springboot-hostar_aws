@@ -35,7 +35,7 @@ public class HelloControllerTest {
         mvc.perform (get ("/hello/dto")
                 .param ("name", name)
                 .param ("amount",  String.valueOf (amount)))
-                    .andExpect (MockMvcResultMatchers.status ().isOk ())
+                    .andExpect (MockMvcResultMatchers.status().isOk()) // auto import setting 알아볼것 ...
                     .andExpect (MockMvcResultMatchers.jsonPath ("$.name", Matchers.is (name)))
                     .andExpect (MockMvcResultMatchers.jsonPath ("$.amount", Matchers.is (amount)))
                 ;
