@@ -13,10 +13,10 @@ public class PostsSaveRequestDto {
     private String author;
 
     @Builder
-    public PostsSaveRequestDto(String title, String content, String author) {
+    public PostsSaveRequestDto(Long id, String title, String content, String author) {
         this.title = title;
         this.content = content;
-        this.content = author;
+        this.author = author;
     }
 
     public Posts toEntity() {

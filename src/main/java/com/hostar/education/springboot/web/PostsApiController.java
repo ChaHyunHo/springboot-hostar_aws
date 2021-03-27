@@ -1,11 +1,11 @@
 package com.hostar.education.springboot.web;
 
 import com.hostar.education.springboot.service.posts.PostsService;
+import com.hostar.education.springboot.web.dto.PostsResponseDto;
 import com.hostar.education.springboot.web.dto.PostsSaveRequestDto;
+import com.hostar.education.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,4 +17,15 @@ public class PostsApiController {
     public Long save(@RequestBody PostsSaveRequestDto requestDto) {
         return postsService.save(requestDto);
     }
+
+    @PutMapping("/api/v1/posts/{id}")
+    public Long save(@PathVariable Long id, PostsUpdateRequestDto requestDto) {
+        return postsService.update(id, requestDto);
+    }
+
+    @GetMapping("/api/v1/posts/{id}")
+    public PostsResponseDto findById(@PathVariable Long id) {
+        return postsService.findById(id);
+    }
+
 }
