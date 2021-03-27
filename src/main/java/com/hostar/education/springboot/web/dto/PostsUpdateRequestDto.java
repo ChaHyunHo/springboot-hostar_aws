@@ -10,13 +10,11 @@ public class PostsUpdateRequestDto {
 
     private String title;
     private String content;
-    private String author;
 
     @Builder
-    public PostsUpdateRequestDto(String title, String content, String author) {
+    public PostsUpdateRequestDto(String title, String content) {
         this.title = title;
         this.content = content;
-        this.author = author;
     }
 
 }
