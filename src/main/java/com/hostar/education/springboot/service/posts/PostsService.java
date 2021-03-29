@@ -41,6 +41,14 @@ public class PostsService {
         return new PostsResponseDto(entity);
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Posts posts = postsRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시글이 없습니다. id=" + id ));
+
+        postsRepository.delete(posts);
+    }
+
     @Transactional(readOnly = true) // readOnly ==> 트랙잭션 범위는 유지하되, 조회 기능만 남겨두어 조회 속도가 개선 :: 등록, 수정, 삭제 기능이 전혀없는 서비스 메소드에서 사용하는걸 추천
     public List<PostsListResponseDto> findAllDesc() {
         return postsRepository.findAllDesc().stream()
