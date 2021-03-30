@@ -26,6 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .oauth2Login()
                         .userInfoEndpoint()
-                            .userService(null);
+                            .userService(null); // 3월 30일 화요일
     }
 }
