@@ -1,5 +1,6 @@
 package com.hostar.education.springboot.web;
 
+import com.hostar.education.springboot.config.auth.LoginUser;
 import com.hostar.education.springboot.config.auth.dto.SessionUser;
 import com.hostar.education.springboot.service.posts.PostsService;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +18,19 @@ public class IndexController {
     private final PostsService postsService;
     private final HttpSession session;
 
+
+    /**
+     *
+     * @param model
+     * @param user 기존에 seesion.getAttribute("user")로 가져오던 세션 정보 값이 개선, 어느 컨트롤러든 @LoginUser만 사용하면 세션 정보를 가져올수 있음
+     * @return
+     */
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
 
-        SessionUser user = (SessionUser) session.getAttribute("user");
-
         if(user != null) model.addAttribute("userName", user.getName());
+
         return "index";
     }
 
