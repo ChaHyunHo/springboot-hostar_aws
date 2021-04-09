@@ -26,6 +26,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -86,6 +87,7 @@ public class PostApiControllerTest {
     }
 
     @Test
+    @WithMockUser(roles="USER")
     public void board_update_test() throws Exception{
         Posts savePosts = postsRepository.save(Posts.builder()
                 .title("title")
@@ -104,21 +106,17 @@ public class PostApiControllerTest {
 
         String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
+        //when
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(postsUpdateRequestDto)))
+                .andExpect(status().isOk());
 
-        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(postsUpdateRequestDto);
+        List<Posts> post = postsRepository.findAll();
 
-        // when
-        ResponseEntity<Long> responseEntity = testRestTemplate.exchange(url,
-                HttpMethod.PUT, requestEntity, Long.class);
+        assertThat(post.get(0).getTitle()).isEqualTo(updateTitle);
+        assertThat(post.get(0).getContent()).isEqualTo(updateContent);
 
-        // then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
-
-        List<Posts> list = postsRepository.findAll();
-
-        assertThat(list.get(0).getTitle()).isEqualTo(updateTitle);
-        assertThat(list.get(0).getContent()).isEqualTo(updateContent);
 
     }
 
